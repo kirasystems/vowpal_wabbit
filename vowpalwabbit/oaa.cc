@@ -39,6 +39,8 @@ namespace OAA {
 
     uint32_t prediction = 1;
     float score = INT_MIN;
+    ec.topic_predictions.erase();
+   
     for (uint32_t i = 1; i <= o.k; i++)
       {
 	if (is_learn)
@@ -58,6 +60,7 @@ namespace OAA {
             score = ec.partial_prediction;
             prediction = i;
           }
+        ec.topic_predictions.push_back(ec.partial_prediction);
 	
         if (o.shouldOutput) {
           if (i > 1) outputStringStream << ' ';
