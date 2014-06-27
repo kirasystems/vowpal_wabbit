@@ -43,7 +43,8 @@ namespace OAA {
     simple_temp.initial = 0.;
     simple_temp.weight = mc_label_data->weight;
     ec.ld = &simple_temp;
-
+    ec.topic_predictions.erase();
+    
     for (uint32_t i = 1; i <= o.k; i++)
       {
 	if (is_learn)
@@ -63,6 +64,8 @@ namespace OAA {
             score = ec.partial_prediction;
             prediction = i;
           }
+          
+        ec.topic_predictions.push_back(score);
 	
         if (o.shouldOutput) {
           if (i > 1) outputStringStream << ' ';
