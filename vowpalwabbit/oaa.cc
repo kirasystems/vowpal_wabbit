@@ -65,7 +65,7 @@ namespace OAA {
             prediction = i;
           }
           
-        ec.topic_predictions.push_back(score);
+        ec.topic_predictions.push_back(ec.partial_prediction);
 	
         if (o.shouldOutput) {
           if (i > 1) outputStringStream << ' ';
