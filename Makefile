@@ -8,7 +8,7 @@ ifneq ($(CXX),)
 else
   CXX = g++
   $(warning Using g++)
-  ARCH = $(shell test `g++ -v 2>&1 | tail -1 | cut -d ' ' -f 3 | cut -d '.' -f 1,2` \< 4.3 && echo -march=nocona || echo -march=native)
+#  ARCH = $(shell test `g++ -v 2>&1 | tail -1 | cut -d ' ' -f 3 | cut -d '.' -f 1,2` \< 4.3 && echo -march=nocona || echo -march=native)
 endif
 
 ifeq ($(CXX),)
