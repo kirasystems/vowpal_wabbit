@@ -13,6 +13,8 @@ ifeq ($(CXX),)
   exit 1
 endif
 
+OUTPUT ?= /usr/local
+
 all:	spanning_tree
 
 %.o:	 %.cc  %.h
@@ -22,10 +24,10 @@ all:	spanning_tree
 	$(CXX) $(FLAGS) -c $< -o $@
 
 spanning_tree: spanning_tree.o
-	$(CXX) $(FLAGS) -o $@ $+ 
+	$(CXX) $(FLAGS) -o $@ $+
 
 install: spanning_tree
-	cp spanning_tree /usr/local/bin
+	cp spanning_tree ${OUTPUT}/bin/
 
 clean:
-	rm -f  *.o $(BINARIES) *~ $(MANPAGES)
+	rm -f  *.o spanning_tree *~

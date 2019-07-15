@@ -8,7 +8,7 @@ ifneq ($(CXX),)
 else
   CXX = g++
   $(warning Using g++)
-  ARCH = 
+  ARCH =
 #  ARCH = $(shell test `g++ -v 2>&1 | tail -1 | cut -d ' ' -f 3 | cut -d '.' -f 1,2` \< 4.3 && echo -march=nocona || echo -march=native)
 endif
 
@@ -18,6 +18,7 @@ ifeq ($(CXX),)
 endif
 
 UNAME := $(shell uname)
+OUTPUT ?= /usr/local
 LIBS = -l boost_program_options -l pthread -l z
 BOOST_INCLUDE = -I /usr/include
 BOOST_LIBRARY = -L /usr/lib
@@ -72,7 +73,7 @@ all:	vw spanning_tree library_example
 
 export
 
-spanning_tree: 
+spanning_tree:
 	cd cluster; $(MAKE)
 
 vw:
@@ -91,8 +92,13 @@ test: .FORCE
 	(cd test && ./RunTests -d -fe -E 0.001 ../vowpalwabbit/vw ../vowpalwabbit/vw)
 
 install: $(BINARIES)
-	cd vowpalwabbit; cp $(BINARIES) /usr/local/bin; cd ../cluster; $(MAKE) install
+	cd vowpalwabbit; $(MAKE) install; cd ../cluster; $(MAKE) install
+
+package:
+	$(eval OUTPUT = "$(shell pwd)/pkg")
+	mkdir -p $(OUTPUT)/include $(OUTPUT)/bin $(OUTPUT)/lib
+	cd vowpalwabbit; $(MAKE) -j install; cd ../cluster; $(MAKE) -j install
+	tar -C $(OUTPUT) -cvzf vowpal_wabbit.tar.gz .
 
 clean:
-	cd vowpalwabbit; $(MAKE) clean; cd ../cluster; $(MAKE) clean
-
+	rm -rf ./pkg vowpal_wabbit.tar.gz; cd vowpalwabbit; $(MAKE) clean; cd ../cluster; $(MAKE) clean

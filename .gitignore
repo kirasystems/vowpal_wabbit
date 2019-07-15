@@ -52,3 +52,4 @@ library/recommend
 library/gd_mf_weights
 test/RunTests.last.times
 *.dSYM
+pkg

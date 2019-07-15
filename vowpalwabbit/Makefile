@@ -1,6 +1,9 @@
 BINARIES = vw active_interactor
+HEADERS = *.h
+LIBRARIES = liballreduce.a libvw.a
 MANPAGES = vw.1
 
+OUTPUT ?= /usr/local
 VWLIBS := -L. -l vw -l allreduce
 STDLIBS = $(BOOST_LIBRARY) $(LIBS)
 
@@ -46,8 +49,7 @@ active_interactor: active_interactor.cc
 	$(CXX) $(FLAGS) -o $@ $+
 
 install: $(BINARIES)
-	cp $(BINARIES) /usr/local/bin; cd cluster; $(MAKE) install
+	cp $(BINARIES) $(OUTPUT)/bin/; cp $(LIBRARIES) $(OUTPUT)/lib/; cp $(HEADERS) $(OUTPUT)/include/
 
 clean:
-	rm -f  *.o *.d $(BINARIES) *~ $(MANPAGES) libvw.a
-
+	rm -f  *.o *.d $(BINARIES) *~ $(MANPAGES) ${LIBRARIES}
